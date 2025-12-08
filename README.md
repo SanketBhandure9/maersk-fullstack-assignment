@@ -47,22 +47,28 @@ You may choose which backend implementation to work with:
 - Includes basic create and list operations
 ---
 ## Your Tasks
+### 1. Frontend UI Polish
+- Refresh the `frontend` layout to highlight your CSS skills. Arrange the form and vendor list in a responsive layout that presents as a single column on mobile and a tidy multi-column layout on desktop using modern CSS (flexbox and/or grid).
+- Introduce a lightweight design system by defining CSS variables (colours, spacing, typography) in `src/style.css` and apply them across components.
+- Enhance the vendor list with hover/focus states, zebra striping, and an accessible empty state while keeping WCAG AA contrast and visible keyboard focus.
+- Add a small visual flourish such as a light/dark theme toggle (or similar motif) handled with CSS-first techniques.
+- Document the layout approach, design tokens, breakpoints, and accessibility considerations in this README, including a quick before/after screenshot or Loom link if possible.
 
-### 1. Delete vendor
+### 2. Delete vendor
 - Implement a delete functionality to allow users to remove vendor entries from the system
 - Include a confirmation dialog before deletion to prevent accidental removal.
 - Update both frontend and your chosen backend to support this feature
 
-### 2. Fix the UI bug
+### 3. Fix the UI bug
 - Currently, clicking the "Add" button multiple times before the form resets can result in duplicate vendor entries.
 - Prevent this behavior to improve the form UX
 
-### 3. Unique Emails
+### 4. Unique Emails
 - Ensure that vendor emails are unique across the system. If a user tries to register a vendor with a duplicate email, they should be informed of the conflict. 
   Think about where this logic should live and how the constraint is best enforced (frontend, backend, data storage or all) and justify your approach
 - Document your reasoning
 
-### 4. Containerization & Deployment (Optional)
+### 5. Containerization & Deployment (Optional)
 At maerks we host most of our backend services using pods and k8. If you have experience or find the challenge interesting, give this assignment a go.
 
 Choose one of the following deployment approaches:
