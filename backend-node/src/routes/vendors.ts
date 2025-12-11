@@ -1,47 +1,69 @@
-import { Router, Request, Response } from 'express';
-import db from '../db/database';
-import { Vendor } from '../models/Vendor';
+import { Router, Request, Response } from "express";
+import db from "../db/database";
+import { Vendor } from "../models/Vendor";
 
 const router = Router();
 
 // GET /vendors - List all vendors
-router.get('/', (req: Request, res: Response) => {
-    db.all('SELECT * FROM vendors', [], (err, rows) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(rows);
-    });
+router.get("/", (req: Request, res: Response) => {
+  db.all("SELECT * FROM vendors", [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(rows);
+  });
 });
 
 // POST /vendors - Register a new vendor
-router.post('/', (req: Request, res: Response) => {
-    const { name, contact_person, email, partner_type } = req.body as Vendor;
-    
-    if (!name || !contact_person || !email || !partner_type) {
-        return res.status(400).json({ error: 'All fields are required' });
-    }
+router.post("/", (req: Request, res: Response) => {
+  const { name, contact_person, email, partner_type } = req.body as Vendor;
 
-    if (partner_type !== 'Supplier' && partner_type !== 'Partner') {
-        return res.status(400).json({ error: 'partner_type must be either "Supplier" or "Partner"' });
-    }
+  if (!name || !contact_person || !email || !partner_type) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
 
-    const sql = `INSERT INTO vendors (name, contact_person, email, partner_type) 
+  if (partner_type !== "Supplier" && partner_type !== "Partner") {
+    return res
+      .status(400)
+      .json({ error: 'partner_type must be either "Supplier" or "Partner"' });
+  }
+
+  const sql = `INSERT INTO vendors (name, contact_person, email, partner_type) 
                  VALUES (?, ?, ?, ?)`;
-    
-    db.run(sql, [name, contact_person, email, partner_type], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        
-        res.status(201).json({
-            id: this.lastID,
-            name,
-            contact_person,
-            email,
-            partner_type
-        });
+
+  db.run(sql, [name, contact_person, email, partner_type], function (err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.status(201).json({
+      id: this.lastID,
+      name,
+      contact_person,
+      email,
+      partner_type,
     });
+  });
+});
+
+router.delete("/:id", (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  if (Number.isNaN(id)) {
+    return res.status(400).json({ error: "Invalid vendor id" });
+  }
+
+  const sql = `DELETE FROM vendors WHERE id = ?`;
+  db.run(sql, [id], function (err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (this.changes === 0) {
+      return res.status(404).json({ error: "Vendor not found" });
+    }
+
+    res.status(204).send();
+  });
 });
 
 export default router;

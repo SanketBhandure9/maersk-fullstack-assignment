@@ -16,6 +16,7 @@
           <th>Contact Person</th>
           <th>Email</th>
           <th>Partner Type</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,16 @@
           <td>{{ vendor.contact_person }}</td>
           <td>{{ vendor.email }}</td>
           <td>{{ vendor.partner_type }}</td>
+          <td>
+            <button
+              class="delete-btn"
+              @click="confirmDelete(vendor.id)"
+              :aria-label="`Delete vendor ${vendor.name}`"
+              :disabled="vendorStore.loading"
+            >
+              Delete
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -41,6 +52,22 @@ const vendorStore = useVendorStore();
 onMounted(() => {
   vendorStore.fetchVendors();
 });
+
+const confirmDelete = async (id: number | undefined) => {
+  if (typeof id !== "number") return;
+
+  const ok = window.confirm(
+    "Are you sure you want to delete this vendor? This action cannot be undone."
+  );
+  if (!ok) return;
+
+  try {
+    await vendorStore.deleteVendor(id);
+  } catch (err) {
+    // error is handled in the store, but ensure user sees something if needed
+    // We keep it minimal: console logs already done in store
+  }
+};
 </script>
 
 <style scoped>
@@ -88,6 +115,22 @@ onMounted(() => {
 
 .vendors-table tbody tr:focus-within td {
   background-color: rgba(76, 175, 80, 0.05);
+}
+
+.delete-btn {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.delete-btn:hover:not(:disabled) {
+  background-color: rgba(244, 67, 54, 0.06);
 }
 
 .error {
