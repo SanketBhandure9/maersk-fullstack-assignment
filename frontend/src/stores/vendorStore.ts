@@ -30,8 +30,12 @@ export const useVendorStore = defineStore("vendor", () => {
       await VendorService.createVendor(vendor);
       // Refresh the vendors list after adding a new vendor
       await fetchVendors();
-    } catch (err) {
-      error.value = "Failed to add vendor. Please try again later.";
+    } catch (err: any) {
+      if (err.status === 409) {
+        error.value = err.message;
+      } else {
+        error.value = "Failed to add vendor. Please try again later.";
+      }
       console.error(err);
       throw err;
     } finally {

@@ -33,6 +33,13 @@ router.post("/", (req: Request, res: Response) => {
 
   db.run(sql, [name, contact_person, email, partner_type], function (err) {
     if (err) {
+      if (err.message && err.message.includes("UNIQUE constraint failed")) {
+        return res.status(409).json({
+          error:
+            "A vendor with this email already exists. Please use a different email address.",
+          code: "EMAIL_DUPLICATE",
+        });
+      }
       return res.status(500).json({ error: err.message });
     }
 

@@ -129,8 +129,11 @@ const submitForm = async () => {
     setTimeout(() => {
       success.value = false;
     }, 2000);
-  } catch (err) {
-    // Error is already handled in the store
+  } catch (err: any) {
+    form.name = payload.name;
+    form.contact_person = payload.contact_person;
+    form.email = payload.email;
+    form.partner_type = payload.partner_type;
   } finally {
     isSubmitting.value = false;
   }
