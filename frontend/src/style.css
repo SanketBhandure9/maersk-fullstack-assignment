@@ -3,12 +3,12 @@
   --line-height: 1.5;
   --font-weight-default: 400;
 
-  --bg: #f4f4f4; /* page background (light) */
-  --surface: #f9f9f9; /* card surface */
-  --text: #333333; /* primary text */
+  --bg: #f4f4f4;
+  --surface: #f9f9f9;
+  --text: #333333;
   --muted: #666666;
   --border: #dddddd;
-  --primary: #4caf50; /* button / success */
+  --primary: #4caf50;
   --primary-hover: #45a049;
   --success: #4caf50;
   --danger: #f44336;
@@ -25,6 +25,20 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+:root[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --surface: #2a2a2a;
+  --text: #e8e8e8;
+  --muted: #999999;
+  --border: #444444;
+  --primary: #5cb85c;
+  --primary-hover: #6bc76c;
+  --success: #5cb85c;
+  --danger: #ff6b6b;
+  --row-hover: #3a3a3a;
+  --th-bg: #333333;
 }
 
 a {

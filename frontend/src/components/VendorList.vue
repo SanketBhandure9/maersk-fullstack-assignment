@@ -64,10 +64,30 @@ onMounted(() => {
 .vendors-table th {
   background-color: var(--th-bg);
   font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
-.vendors-table tr:hover {
+.vendors-table tbody tr:nth-child(odd) {
+  background-color: transparent;
+}
+
+.vendors-table tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.vendors-table tbody tr:hover {
   background-color: var(--row-hover);
+}
+
+.vendors-table tbody tr:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.vendors-table tbody tr:focus-within td {
+  background-color: rgba(76, 175, 80, 0.05);
 }
 
 .error {
@@ -76,8 +96,26 @@ onMounted(() => {
 }
 
 .no-vendors {
-  padding: 20px;
+  padding: 40px 20px;
   text-align: center;
   color: var(--muted);
+  background-color: var(--surface);
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.no-vendors::before {
+  content: "📋";
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.5;
 }
 </style>

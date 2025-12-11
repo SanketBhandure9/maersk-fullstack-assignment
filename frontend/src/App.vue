@@ -1,12 +1,45 @@
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import VendorForm from "./components/VendorForm.vue";
 import VendorList from "./components/VendorList.vue";
+
+const isDark = ref(false);
+
+const toggleTheme = () => {
+  isDark.value = !isDark.value;
+  if (isDark.value) {
+    document.documentElement.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+    localStorage.setItem("theme", "light");
+  }
+};
+
+onMounted(() => {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    isDark.value = true;
+    document.documentElement.setAttribute("data-theme", "dark");
+  }
+});
 </script>
 
 <template>
   <div class="app-container">
     <header>
-      <h1>Trusted Vendor Portal</h1>
+      <div class="header-content">
+        <h1>Trusted Vendor Portal</h1>
+        <button
+          class="theme-toggle"
+          @click="toggleTheme"
+          :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+          aria-label="Toggle dark/light theme"
+        >
+          <span v-if="isDark">☀️</span>
+          <span v-else>🌙</span>
+        </button>
+      </div>
     </header>
     <main>
       <div class="content-layout">
@@ -30,8 +63,7 @@ body {
   line-height: 1.6;
   color: var(--text);
   background-color: var(--bg);
-  line-height: 1.6;
-  color: #333;
+  -webkit-font-smoothing: antialiased;
 }
 
 .app-container {
@@ -42,9 +74,37 @@ body {
 
 header {
   padding: 20px 0;
-  text-align: center;
   margin-bottom: 20px;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid var(--border);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  background-color: var(--row-hover);
+  border-color: var(--primary);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .content-layout {
@@ -70,11 +130,13 @@ header {
 }
 
 h1 {
-  color: #2c3e50;
+  color: var(--text);
+  margin: 0;
+  font-size: 1.8rem;
 }
 
 h2 {
   margin-bottom: 15px;
-  color: #2c3e50;
+  color: var(--text);
 }
 </style>
