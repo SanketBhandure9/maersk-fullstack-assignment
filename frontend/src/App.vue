@@ -62,8 +62,6 @@ body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
   color: var(--text);
-  background-color: var(--bg);
-  -webkit-font-smoothing: antialiased;
 }
 
 .app-container {
@@ -111,6 +109,8 @@ header {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: center; /* center children horizontally on narrow screens */
+  width: 100%;
 }
 
 @media (min-width: 1024px) {

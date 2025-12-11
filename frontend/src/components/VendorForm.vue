@@ -170,17 +170,6 @@ const submitForm = async () => {
   font-size: 16px;
 }
 
-@media (max-width: 420px) {
-  .vendor-form {
-    padding: 12px;
-    margin: 12px auto;
-  }
-  .form-group input,
-  .form-group select {
-    font-size: 15px;
-  }
-}
-
 .form-actions {
   margin-top: 20px;
 }

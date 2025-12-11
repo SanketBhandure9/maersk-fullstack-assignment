@@ -72,7 +72,11 @@ const confirmDelete = async (id: number | undefined) => {
 
 <style scoped>
 .vendor-list {
-  margin: 20px 0;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 820px; /* keeps table readable on large screens */
+  box-sizing: border-box;
+  padding: 0 10px; /* small horizontal padding on very small screens */
 }
 
 .vendors-table {
