@@ -10,6 +10,7 @@
           type="text"
           required
           placeholder="Company name"
+          :disabled="vendorStore.loading || isSubmitting"
         />
       </div>
 
@@ -21,6 +22,7 @@
           type="text"
           required
           placeholder="Contact person name"
+          :disabled="vendorStore.loading || isSubmitting"
         />
       </div>
 
@@ -32,24 +34,33 @@
           type="email"
           required
           placeholder="contact@example.com"
+          :disabled="vendorStore.loading || isSubmitting"
         />
       </div>
 
       <div class="form-group">
         <label for="partnerType">Partner Type:</label>
-        <select id="partnerType" v-model="form.partner_type" required>
+        <select
+          id="partnerType"
+          v-model="form.partner_type"
+          required
+          :disabled="vendorStore.loading || isSubmitting"
+        >
           <option value="Supplier">Supplier</option>
           <option value="Partner">Partner</option>
         </select>
       </div>
 
       <div class="form-actions">
-        <button type="submit" :disabled="vendorStore.loading">
-          {{ vendorStore.loading ? "Submitting..." : "Add Vendor" }}
+        <button type="submit" :disabled="vendorStore.loading || isSubmitting">
+          {{
+            vendorStore.loading || isSubmitting ? "Submitting..." : "Add Vendor"
+          }}
         </button>
         <div v-if="vendorStore.error" class="error-message">
           {{ vendorStore.error }}
         </div>
+        <div v-if="formError" class="error-message">{{ formError }}</div>
         <div v-if="success" class="success-message">
           Vendor added successfully!
         </div>
@@ -73,6 +84,8 @@ const form = reactive<Vendor>({
 });
 
 const success = ref(false);
+const isSubmitting = ref(false);
+const formError = ref<string | null>(null);
 
 const resetForm = () => {
   form.name = "";
@@ -82,19 +95,44 @@ const resetForm = () => {
 };
 
 const submitForm = async () => {
+  if (isSubmitting.value || vendorStore.loading) return;
+
+  isSubmitting.value = true;
+  formError.value = null;
+  const emailNormalized = String(form.email || "")
+    .trim()
+    .toLowerCase();
+  if (
+    emailNormalized &&
+    vendorStore.vendors.some(
+      (v) =>
+        String(v.email || "")
+          .trim()
+          .toLowerCase() === emailNormalized
+    )
+  ) {
+    formError.value =
+      "A vendor with this email already exists. Please use a different email address.";
+    isSubmitting.value = false;
+    return;
+  }
+
   success.value = false;
 
+  const payload = { ...form };
+  resetForm();
+
   try {
-    await vendorStore.addVendor({ ...form });
+    await vendorStore.addVendor(payload);
     success.value = true;
 
-    // Reset the form after successful submission
     setTimeout(() => {
-      resetForm();
       success.value = false;
     }, 2000);
   } catch (err) {
     // Error is already handled in the store
+  } finally {
+    isSubmitting.value = false;
   }
 };
 </script>
