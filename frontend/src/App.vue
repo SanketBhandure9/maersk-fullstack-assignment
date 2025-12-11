@@ -29,7 +29,6 @@ body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #f4f4f4;
 }
 
 .app-container {
@@ -46,15 +45,24 @@ header {
 }
 
 .content-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 @media (min-width: 1024px) {
   .content-layout {
-    grid-template-columns: 1fr 1.5fr;
-    align-items: start;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+  }
+
+  .content-layout > *:first-child {
+    flex: 0 0 420px;
+  }
+
+  .content-layout > *:last-child {
+    flex: 1 1 auto;
   }
 }
 
