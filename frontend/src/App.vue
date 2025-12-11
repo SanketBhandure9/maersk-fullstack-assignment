@@ -28,6 +28,9 @@ import VendorList from "./components/VendorList.vue";
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
+  color: var(--text);
+  background-color: var(--bg);
+  line-height: 1.6;
   color: #333;
 }
 

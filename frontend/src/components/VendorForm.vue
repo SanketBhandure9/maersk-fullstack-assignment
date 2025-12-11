@@ -105,9 +105,9 @@ const submitForm = async () => {
   max-width: 500px;
   margin: 20px auto;
   padding: 18px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--surface);
 }
 
 .form-group {
@@ -124,7 +124,7 @@ const submitForm = async () => {
 .form-group select {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 4px;
   font-size: 16px;
 }
@@ -146,7 +146,7 @@ const submitForm = async () => {
 
 button {
   padding: 10px 15px;
-  background-color: #4caf50;
+  background-color: var(--primary);
   color: white;
   border: none;
   border-radius: 4px;
@@ -155,7 +155,7 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: var(--primary-hover);
 }
 
 button:disabled {
@@ -164,12 +164,12 @@ button:disabled {
 }
 
 .error-message {
-  color: #f44336;
+  color: var(--danger);
   margin-top: 10px;
 }
 
 .success-message {
-  color: #4caf50;
+  color: var(--success);
   margin-top: 10px;
 }
 </style>
